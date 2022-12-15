@@ -5,7 +5,7 @@ import threading
 #Constants
 HOST = '127.0.0.1'
 PORT = 1234
-CLIENT_LIMIT = 2    # Maximum connections to the server
+CLIENT_LIMIT = 5    # Maximum connections to the server
 activeClients = []
 
 def clientHandler(client):
@@ -16,7 +16,7 @@ def clientHandler(client):
             activeClients.append((username,client)) # appending current to the active list
             # print(f"[SERVER]// {username} has joined the chat! //")
             announcement = f"SERVER~// {username} has joined the chat! //"
-            sendMsgToAll(announcement)
+            sendMsgToAll(announcement,client)
             break;
         else:
             continue
@@ -29,14 +29,15 @@ def listenFromClient(client, username):
         msg = client.recv(1024).decode('utf-8') # msg len max 1024 character
         if msg != '' :
             modifiedMsg = username + '~' + msg
-            sendMsgToAll(modifiedMsg)
+            sendMsgToAll(modifiedMsg,client) 
         else:
             continue
 
-def sendMsgToAll(msg):
+def sendMsgToAll(msg,client):
     # Broadcasting msg to all active clients
     for user in activeClients:
-        sendMsgToIndividual(user[1], msg)
+        if user[1] != client :  # Sending Msg to all connected client except the sender
+            sendMsgToIndividual(user[1], msg)
 
 def sendMsgToIndividual(client, msg):
     # Sending msg to individual

@@ -10,6 +10,7 @@ def communicateToServer(client):
     username = input("Enter your username: ")
     if username != '':
         client.sendall(username.encode())
+        print(f"welcome aboard {username}, you are good to go...\n")
     
     threading.Thread(target=listenFromServer, args=(client, )).start()
     sendToServer(client)
@@ -19,18 +20,15 @@ def listenFromServer(client):
         content = client.recv(1024).decode('utf-8')
         if content != '':
             newContent = content.split('~')
-            # print(newContent)
             username = newContent[0]
             msg = newContent[1]
             print(f"[{username}] {msg}")
 
 def sendToServer(client):
     while 1:
-        msg = input("Write your thoughts :")
+        msg = input()
         if msg != '':
             client.sendall(msg.encode())
-        else:
-            exit(0)
 
 def main():
     # AF_NET - IPv4
