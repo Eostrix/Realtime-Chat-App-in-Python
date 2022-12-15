@@ -14,18 +14,21 @@ def clientHandler(client):
         username = client.recv(32).decode('utf-8') # username max len is 32
         if username != '':
             activeClients.append((username,client)) # appending current to the active list
+            # print(f"[SERVER]// {username} has joined the chat! //")
+            announcement = f"SERVER~// {username} has joined the chat! //"
+            sendMsgToAll(announcement)
             break;
         else:
             continue
 
-    threading.Thread(target=listeningMessages, args=(client,username,)).start()
+    threading.Thread(target=listenFromClient, args=(client,username,)).start()
 
-def listeningMessages(client, username):
+def listenFromClient(client, username):
     # waiting for client to send msgs
     while 1:
         msg = client.recv(1024).decode('utf-8') # msg len max 1024 character
         if msg != '' :
-            modifiedMsg = '[' + username + ']' + ' ~ ' + msg
+            modifiedMsg = username + '~' + msg
             sendMsgToAll(modifiedMsg)
         else:
             continue
@@ -37,7 +40,7 @@ def sendMsgToAll(msg):
 
 def sendMsgToIndividual(client, msg):
     # Sending msg to individual
-    client.sendAll(msg.endcode())
+    client.sendall(msg.encode())
 
 def main():
     # AF_NET - IPv4
