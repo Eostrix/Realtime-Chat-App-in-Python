@@ -16,6 +16,7 @@ A simple real-time chat application in python using basics of socket programming
       - Don't forget to update the **CLIENT_LIMIT** constant from server.py file accordingly.
   - Enjoy.........
   
+  ![Demo Output](https://raw.githubusercontent.com/Eostrix/Realtime-Chat-App-in-Python/main/demo.jpg?token=GHSAT0AAAAAAB4NEIZMV7W7BLUMPF5AZ3GOY45664Q)
   
 ## Scope of Improvements
   - Introducing more features such Admin Control, Aborting Chat, Private Chat etc. 
